@@ -14,10 +14,93 @@ body{
 .left{
     width: 20vw;
     height: 100%;
+    padding: 40px;
 }
 
 .right{
     width: 80vw;
     height: 100%;
     background-color: rgb(63, 63, 63);
+    padding: 40px;
+}
+
+.leftHeader{
+    font-weight: bold;
+    font-size: 32px;
+}
+
+.projectList{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 8px;
+}
+
+.project{
+    font-size: 24px;
+    cursor: pointer;
+    padding: 8px;
+}
+
+.project:hover{
+    background-color: rgb(114, 113, 113);
+}
+
+.project.active{
+    background-color: rgb(114, 113, 113);
+}
+
+.addProject{
+    font-size: 32px;
+    background-color: rgb(75, 74, 74);
+    color: rgb(9, 189, 9);
+    cursor: pointer;
+    border-radius: 4px;
+    padding: 8px;
+}
+
+.addProject:hover{
+    background-color: rgb(114, 113, 113);
+}
+
+#projectForm{
+    border: 2px solid white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(22, 21, 21);
+    padding: 16px;
+    border-radius: 4px;
+    gap: 16px;
+    width: 500px;
+    height: 300px;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-size: 32px;
+}
+
+#projectForm > div{
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+}
+
+#projectForm > input{
+    font-size: 32px;
+    border-radius: 4px;
+}
+
+#projectForm > div > button{
+    font-size: 32px;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 4px;
+    background-color: green;
+}
+
+#projectForm > div > .pCloseForm{
+    background-color: rgba(255, 0, 0, 0.692);
 }

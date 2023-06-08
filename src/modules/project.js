@@ -32,3 +32,19 @@ class Project{
     }
 }
 
+
+let projectArray = [];
+
+function addProject(title, description){
+    let newProject = new Project(title, description);
+    projectArray.push(newProject);
+    let projectList = document.querySelector(".projectList");
+    let newDiv = document.createElement('div');
+    newDiv.textContent = title;
+    newDiv.classList.add('project');
+    newDiv.dataset.index = projectArray.length - 1;
+    projectList.appendChild(newDiv);
+    return newProject;
+}
+
+export {addProject, projectArray};
