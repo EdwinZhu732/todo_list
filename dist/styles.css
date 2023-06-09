@@ -175,7 +175,7 @@ body{
     border-radius: 4px;
     gap: 16px;
     width: 500px;
-    height: 300px;
+    height: 500px;
     margin-left: auto;
     margin-right: auto;
     left: 0;
@@ -184,7 +184,6 @@ body{
     font-size: 32px;
     top: 20%;
 }
-
 
 #toDoForm > input{
     font-size: 32px;
@@ -207,4 +206,24 @@ body{
 
 #toDoForm > div > .tCloseForm{
     background-color: rgba(255, 0, 0, 0.692);
+}
+
+#toDoForm > div > label{
+    font-size: 24px;
+}
+
+#toDoForm > div > input{
+    transform: scale(2);
+}
+
+#toDoForm > div > label:first-child{
+    color: rgb(13, 204, 13);
+}
+
+#toDoForm > div > label:nth-child(3){
+    color: yellow;
+}
+
+#toDoForm > div > label:nth-child(5){
+    color: red;
 }

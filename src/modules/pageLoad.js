@@ -50,7 +50,7 @@ function pageLoad(){
 
     let addToDo = document.createElement('button');
     addToDo.classList.add("addToDo");
-    addToDo.textContent = "Add Task";
+    addToDo.textContent = "Add To-do";
     rightSide.appendChild(addToDo);
 
     //Project form creation
@@ -137,6 +137,58 @@ function pageLoad(){
     toDoDescriptionInput.placeholder = "Enter To-do Description";
     toDoForm.appendChild(toDoDescriptionInput);
 
+    let toDoDate = document.createElement("label");
+    toDoDate.setAttribute("for", "tDateForm");
+    toDoDate.textContent = "Due Date";
+    toDoForm.appendChild(toDoDate);
+
+    let toDoDateInput = document.createElement("input");
+    toDoDateInput.setAttribute("type", "date");
+    toDoDateInput.setAttribute("id", "tDateForm");
+    toDoDateInput.setAttribute("name", "tDateForm");
+    toDoDateInput.required = true;
+    toDoForm.appendChild(toDoDateInput);
+
+    let priorityDiv = document.createElement("div");
+    toDoForm.appendChild(priorityDiv);
+    
+    let low = document.createElement("label");
+    low.setAttribute("for", "low");
+    low.textContent = "Low Priority";
+    priorityDiv.appendChild(low);
+
+    let lowInput = document.createElement("input");
+    lowInput.setAttribute("type", "radio");
+    lowInput.setAttribute("id", "low");
+    lowInput.setAttribute("name", "priority");
+    lowInput.setAttribute("value", "low");
+    lowInput.checked = true;
+    priorityDiv.appendChild(lowInput);
+
+    let med = document.createElement("label");
+    med.setAttribute("for", "med");
+    med.textContent = "Medium Priority";
+    priorityDiv.appendChild(med);
+    
+    let medInput = document.createElement("input");
+    medInput.setAttribute("type", "radio");
+    medInput.setAttribute("id", "med");
+    medInput.setAttribute("name", "priority");
+    medInput.setAttribute("value", "med");
+    priorityDiv.appendChild(medInput);
+
+    let high = document.createElement("label");
+    high.setAttribute("for", "high");
+    high.textContent = "High Priority";
+    priorityDiv.appendChild(high);
+
+    let highInput = document.createElement("input");
+    highInput.setAttribute("type", "radio");
+    highInput.setAttribute("id", "high");
+    highInput.setAttribute("name", "priority");
+    highInput.setAttribute("value", "high");
+    priorityDiv.appendChild(highInput);
+
     let toDoButtonDiv = document.createElement('div');
     toDoForm.appendChild(toDoButtonDiv);
 
@@ -154,23 +206,26 @@ function pageLoad(){
 
     addProjectButton.addEventListener('click', () => {
         projectForm.style.opacity = 1;
-        projectForm.style.transition = "opacity 0.5s ease-out";
+        projectForm.style.transition = "opacity 150ms ease-in, visibility 0ms ease-in 0ms";
         projectForm.style.visibility = "visible";
         leftSide.style.pointerEvents="none";
         rightSide.style.pointerEvents="none";
         leftSide.style.filter = "brightness(50%)";
         rightSide.style.filter = "brightness(50%)";
+        document.addEventListener('mouseup', pClicked, false);
     });
 
     close.addEventListener("click", () => {
         projectForm.style.opacity = 0;
+        projectForm.style.transition = "opacity 100ms ease-in, visibility 0ms ease-in 100ms";
         projectForm.style.visibility = "hidden";
-        projectForm.pTitleForm.value = "";
-        projectForm.pDescriptionForm.value = "";
         leftSide.style.pointerEvents = "auto";
         rightSide.style.pointerEvents = "auto";
         leftSide.style.filter = "brightness(100%)";
         rightSide.style.filter = "brightness(100%)";
+        document.removeEventListener('mouseup', pClicked, false);
+        projectForm.pTitleForm.value = "";
+        projectForm.pDescriptionForm.value = "";
     }
     );
     
@@ -182,23 +237,28 @@ function pageLoad(){
 
     addToDo.addEventListener('click', () =>{
         toDoForm.style.opacity = 1;
-        toDoForm.style.transition = "opacity 0.5s ease-out";
+        toDoForm.style.transition = "opacity 150ms ease-in, visibility 0ms ease-in 0ms";
         toDoForm.style.visibility = "visible";
         leftSide.style.pointerEvents="none";
         rightSide.style.pointerEvents="none";
         leftSide.style.filter = "brightness(50%)";
         rightSide.style.filter = "brightness(50%)";
+        document.addEventListener('mouseup', tClicked, false);
     });
 
     toDoClose.addEventListener("click", () => {
         toDoForm.style.opacity = 0;
+        toDoForm.style.transition = "opacity 100ms ease-in, visibility 0ms ease-in 100ms";
         toDoForm.style.visibility = "hidden";
-        toDoForm.tTitleForm.value = "";
-        toDoForm.tDescriptionForm.value = "";
         leftSide.style.pointerEvents = "auto";
         rightSide.style.pointerEvents = "auto";
         leftSide.style.filter = "brightness(100%)";
         rightSide.style.filter = "brightness(100%)";
+        document.removeEventListener('mouseup', tClicked, false);
+        toDoForm.tTitleForm.value = "";
+        toDoForm.tDescriptionForm.value = "";
+        toDoForm.tDateForm.value = "";
+        toDoForm.priority.value = "low";
     }
     );
 
@@ -212,17 +272,23 @@ function getProjectData(event){
     let myP = addProject(title, description);
     localStorage.setItem(projectArray.length - 1, JSON.stringify(myP));
     event.preventDefault();
+    projectForm.style.opacity = 0;
+    projectForm.style.transition = "opacity 100ms ease-in, visibility 0ms ease-in 100ms";
     projectForm.style.visibility = "hidden";
-    event.target.pTitleForm.value = "";
-    event.target.pDescriptionForm.value = "";
     document.querySelector('.left').style.pointerEvents="auto";
     document.querySelector('.right').style.pointerEvents="auto";
     document.querySelector('.left').style.filter = "brightness(100%)";
     document.querySelector('.right').style.filter = "brightness(100%)";
+    document.removeEventListener('mouseup', pClicked, false);
+    event.target.pTitleForm.value = "";
+    event.target.pDescriptionForm.value = "";
 }
 
 function getToDoData(event){
+    let toDoForm = document.querySelector('#toDoForm');
+
     event.preventDefault();
+    document.removeEventListener('mouseup', tClicked, false);
 }
 
 function loadFromLocal(){
@@ -239,5 +305,38 @@ function loadFromLocal(){
     
 }
 
+function pClicked(event){
+    let projectForm = document.querySelector("#projectForm");
+    if (!projectForm.contains(event.target)) {
+        projectForm.style.opacity = 0;
+        projectForm.style.transition = "opacity 100ms ease-in, visibility 0ms ease-in 100ms";
+        projectForm.style.visibility = "hidden";
+        document.querySelector(".left").style.pointerEvents = "auto";
+        document.querySelector(".right").style.pointerEvents = "auto";
+        document.querySelector(".left").style.filter = "brightness(100%)";
+        document.querySelector(".right").style.filter = "brightness(100%)";
+        document.removeEventListener('mouseup', pClicked, false);
+        projectForm.pTitleForm.value = "";
+        projectForm.pDescriptionForm.value = "";
+    }
+}
+
+function tClicked(event){
+    let toDoForm = document.querySelector("#toDoForm");
+    if (!toDoForm.contains(event.target)) {
+        toDoForm.style.opacity = 0;
+        toDoForm.style.transition = "opacity 100ms ease-in, visibility 0ms ease-in 100ms";
+        toDoForm.style.visibility = "hidden";
+        document.querySelector(".left").style.pointerEvents = "auto";
+        document.querySelector(".right").style.pointerEvents = "auto";
+        document.querySelector(".left").style.filter = "brightness(100%)";
+        document.querySelector(".right").style.filter = "brightness(100%)";
+        document.removeEventListener('mouseup', tClicked, false);
+        toDoForm.tTitleForm.value = "";
+        toDoForm.tDescriptionForm.value = "";
+        toDoForm.tDateForm.value = "";
+        toDoForm.priority.value = "low";
+    }
+}
 
 export default pageLoad;
