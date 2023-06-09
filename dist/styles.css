@@ -1,27 +1,31 @@
+html, body{
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
 body{
     background-color: rgb(75, 74, 74);
     color: white;
     font-family: sans-serif;
+    padding: 0;
     margin: 0;
+    height: 100%;
+    
 }
 
 .content{
     display: flex;
-    height: 100vh;
-    width: 100vw;
+    height: 100%;
 }
 
 .left{
-    width: 20vw;
+    width: 20%;
     height: 100%;
-    padding: 40px;
-}
-
-.right{
-    width: 80vw;
-    height: 100%;
-    background-color: rgb(63, 63, 63);
-    padding: 40px;
+    padding-left: 50px;
+    padding-right: 40px;
+    padding-top: 70px;
+    
 }
 
 .leftHeader{
@@ -33,12 +37,14 @@ body{
     display: flex;
     flex-direction: column;
     margin-bottom: 8px;
+    gap: 4px;
 }
 
 .project{
     font-size: 24px;
     cursor: pointer;
     padding: 8px;
+    color: rgb(161, 160, 160);
 }
 
 .project:hover{
@@ -47,6 +53,7 @@ body{
 
 .project.active{
     background-color: rgb(114, 113, 113);
+    color: white;
 }
 
 .addProject{
@@ -56,6 +63,9 @@ body{
     cursor: pointer;
     border-radius: 4px;
     padding: 8px;
+    height: 70px;
+    width: 250px;
+    margin-top: 16px;
 }
 
 .addProject:hover{
@@ -103,4 +113,40 @@ body{
 
 #projectForm > div > .pCloseForm{
     background-color: rgba(255, 0, 0, 0.692);
+}
+
+.deleteProject{
+    font-size: 32px;
+    background-color: rgb(75, 74, 74);
+    color: red;
+    cursor: pointer;
+    border-radius: 4px;
+    height: 120px;
+    width: 250px;
+    margin-top: 30px;
+    
+}
+
+.deleteProject:hover{
+    background-color: rgb(114, 113, 113);
+}
+
+
+.right{
+    width: 80%;
+    height: 100%;
+    background-color: rgb(63, 63, 63);
+    padding-left: 40px;
+    padding-right: 40px;
+    padding-top: 50px;
+    
+}
+
+.rightHeader{
+    font-size: 32px;
+    
+}
+
+.rightProjectDescription{
+    color: rgba(255, 255, 255, 0.692);
 }

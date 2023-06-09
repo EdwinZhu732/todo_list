@@ -1,4 +1,4 @@
-import { addProject, projectArray } from "./project";
+import { addProject, projectArray, deleteActiveProject } from "./project";
 
 function pageLoad(){
     let contentDiv = document.querySelector('.content');
@@ -22,6 +22,11 @@ function pageLoad(){
     addProjectButton.classList.add("addProject");
     addProjectButton.textContent = "Add Project";
     leftSide.appendChild(addProjectButton);
+
+    let deleteProject = document.createElement('button');
+    deleteProject.classList.add("deleteProject");
+    deleteProject.textContent = "Delete Selected Project";
+    leftSide.appendChild(deleteProject);
 
     let rightSide = document.createElement('div');
     rightSide.classList.add("right");
@@ -107,6 +112,11 @@ function pageLoad(){
     }
     );
     
+    deleteProject.addEventListener('click', () =>{
+        deleteActiveProject();
+        rightHeader.textContent = "Example Project";
+        rightProjectDescription.textContent = "Example Description";
+    });
     loadFromLocal();
 }
 
@@ -135,5 +145,6 @@ function loadFromLocal(){
     );
     
 }
+
 
 export default pageLoad;
