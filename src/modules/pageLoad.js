@@ -54,17 +54,18 @@ function pageLoad(){
     rightSide.appendChild(addToDo);
 
     //Project form creation
-    let myForm = document.createElement("form")
-    myForm.setAttribute("id", "projectForm");
-    myForm.style.visibility = "hidden";
-    myForm.style.position = "absolute";
-    myForm.addEventListener("submit", getData, false);
-    contentDiv.appendChild(myForm);
+    let projectForm = document.createElement("form")
+    projectForm.setAttribute("id", "projectForm");
+    projectForm.style.visibility = "hidden";
+    projectForm.style.opacity = 0;
+    projectForm.style.position = "absolute";
+    projectForm.addEventListener("submit", getProjectData, false);
+    contentDiv.appendChild(projectForm);
 
     let projectTitle = document.createElement("label");
     projectTitle.setAttribute("for", "pTitleForm");
     projectTitle.textContent = "Project Title";
-    myForm.appendChild(projectTitle);
+    projectForm.appendChild(projectTitle);
 
     let titleInput = document.createElement("input");
     titleInput.setAttribute("type", "text");
@@ -72,12 +73,12 @@ function pageLoad(){
     titleInput.setAttribute("name", "pTitleForm");
     titleInput.required = true;
     titleInput.placeholder = "Enter Project Title";
-    myForm.appendChild(titleInput);
+    projectForm.appendChild(titleInput);
 
     let projectDescription = document.createElement("label");
     projectDescription.setAttribute("for", "pDescriptionForm");
     projectDescription.textContent = "Project Description";
-    myForm.appendChild(projectDescription);
+    projectForm.appendChild(projectDescription);
 
     let descriptionInput = document.createElement("input");
     descriptionInput.setAttribute("type", "text");
@@ -85,10 +86,10 @@ function pageLoad(){
     descriptionInput.setAttribute("name", "pDescriptionForm");
     descriptionInput.required = true;
     descriptionInput.placeholder = "Enter Project Description"
-    myForm.appendChild(descriptionInput);
+    projectForm.appendChild(descriptionInput);
 
     let buttonDiv = document.createElement('div');
-    myForm.appendChild(buttonDiv);
+    projectForm.appendChild(buttonDiv);
 
     let submit = document.createElement("button");
     submit.setAttribute("type", "submit");
@@ -100,15 +101,76 @@ function pageLoad(){
     close.textContent = "Close";
     close.classList.add("pCloseForm");
     buttonDiv.appendChild(close);
+    //End of Project Form Creation
+
+    //To-do Form Creation
+    let toDoForm = document.createElement("form");
+    toDoForm.setAttribute("id", "toDoForm");
+    toDoForm.style.visibility = "hidden";
+    toDoForm.style.opacity = 0;
+    toDoForm.style.position = "absolute";
+    toDoForm.addEventListener("submit", getToDoData, false);
+    contentDiv.appendChild(toDoForm);
+
+    let toDoTitle = document.createElement("label");
+    toDoTitle.setAttribute("for", "tTitleForm");
+    toDoTitle.textContent = "To-do Title";
+    toDoForm.appendChild(toDoTitle);
+
+    let toDoTitleInput = document.createElement("input");
+    toDoTitleInput.setAttribute("type", "text");
+    toDoTitleInput.setAttribute("id", "tTitleForm");
+    toDoTitleInput.setAttribute("name", "tTitleForm");
+    toDoTitleInput.required = true;
+    toDoTitleInput.placeholder = "Enter To-do Title";
+    toDoForm.appendChild(toDoTitleInput);
+
+    let toDoDescription = document.createElement("label");
+    toDoDescription.setAttribute("for", "tDescriptionForm");
+    toDoDescription.textContent = "To-do Description (Optional)";
+    toDoForm.appendChild(toDoDescription);
+
+    let toDoDescriptionInput = document.createElement("input");
+    toDoDescriptionInput.setAttribute("type", "text");
+    toDoDescriptionInput.setAttribute("id", "tDescriptionForm");
+    toDoDescriptionInput.setAttribute("name", "tDescriptionForm");
+    toDoDescriptionInput.placeholder = "Enter To-do Description";
+    toDoForm.appendChild(toDoDescriptionInput);
+
+    let toDoButtonDiv = document.createElement('div');
+    toDoForm.appendChild(toDoButtonDiv);
+
+    let toDoSubmit = document.createElement("button");
+    toDoSubmit.setAttribute("type", "submit");
+    toDoSubmit.textContent = "Submit";
+    toDoButtonDiv.appendChild(toDoSubmit);
+
+    let toDoClose = document.createElement("button");
+    toDoClose.setAttribute("type", "button");
+    toDoClose.textContent = "Close";
+    toDoClose.classList.add("tCloseForm");
+    toDoButtonDiv.appendChild(toDoClose);
+    //End of To-do Form Creation
 
     addProjectButton.addEventListener('click', () => {
-        myForm.style.visibility = "visible";
+        projectForm.style.opacity = 1;
+        projectForm.style.transition = "opacity 0.5s ease-out";
+        projectForm.style.visibility = "visible";
+        leftSide.style.pointerEvents="none";
+        rightSide.style.pointerEvents="none";
+        leftSide.style.filter = "brightness(50%)";
+        rightSide.style.filter = "brightness(50%)";
     });
 
     close.addEventListener("click", () => {
-        myForm.style.visibility = "hidden";
-        myForm.pTitleForm.value = "";
-        myForm.pDescriptionForm.value = "";
+        projectForm.style.opacity = 0;
+        projectForm.style.visibility = "hidden";
+        projectForm.pTitleForm.value = "";
+        projectForm.pDescriptionForm.value = "";
+        leftSide.style.pointerEvents = "auto";
+        rightSide.style.pointerEvents = "auto";
+        leftSide.style.filter = "brightness(100%)";
+        rightSide.style.filter = "brightness(100%)";
     }
     );
     
@@ -117,19 +179,50 @@ function pageLoad(){
         rightHeader.textContent = "Example Project";
         rightProjectDescription.textContent = "Example Description";
     });
+
+    addToDo.addEventListener('click', () =>{
+        toDoForm.style.opacity = 1;
+        toDoForm.style.transition = "opacity 0.5s ease-out";
+        toDoForm.style.visibility = "visible";
+        leftSide.style.pointerEvents="none";
+        rightSide.style.pointerEvents="none";
+        leftSide.style.filter = "brightness(50%)";
+        rightSide.style.filter = "brightness(50%)";
+    });
+
+    toDoClose.addEventListener("click", () => {
+        toDoForm.style.opacity = 0;
+        toDoForm.style.visibility = "hidden";
+        toDoForm.tTitleForm.value = "";
+        toDoForm.tDescriptionForm.value = "";
+        leftSide.style.pointerEvents = "auto";
+        rightSide.style.pointerEvents = "auto";
+        leftSide.style.filter = "brightness(100%)";
+        rightSide.style.filter = "brightness(100%)";
+    }
+    );
+
     loadFromLocal();
 }
 
-function getData(event){
-    let myForm = document.querySelector("#projectForm");
+function getProjectData(event){
+    let projectForm = document.querySelector("#projectForm");
     let title = event.target.pTitleForm.value;
     let description = event.target.pDescriptionForm.value;
     let myP = addProject(title, description);
     localStorage.setItem(projectArray.length - 1, JSON.stringify(myP));
     event.preventDefault();
-    myForm.style.visibility = "hidden";
+    projectForm.style.visibility = "hidden";
     event.target.pTitleForm.value = "";
     event.target.pDescriptionForm.value = "";
+    document.querySelector('.left').style.pointerEvents="auto";
+    document.querySelector('.right').style.pointerEvents="auto";
+    document.querySelector('.left').style.filter = "brightness(100%)";
+    document.querySelector('.right').style.filter = "brightness(100%)";
+}
+
+function getToDoData(event){
+    event.preventDefault();
 }
 
 function loadFromLocal(){

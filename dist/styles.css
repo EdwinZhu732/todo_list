@@ -44,7 +44,7 @@ body{
     font-size: 24px;
     cursor: pointer;
     padding: 8px;
-    color: rgb(161, 160, 160);
+    color: rgba(255, 255, 255, 0.692);
 }
 
 .project:hover{
@@ -88,6 +88,7 @@ body{
     margin-right: auto;
     left: 0;
     right: 0;
+    top: 20%;
     text-align: center;
     font-size: 32px;
 }
@@ -124,7 +125,6 @@ body{
     height: 120px;
     width: 250px;
     margin-top: 30px;
-    
 }
 
 .deleteProject:hover{
@@ -149,4 +149,62 @@ body{
 
 .rightProjectDescription{
     color: rgba(255, 255, 255, 0.692);
+}
+
+.addToDo{
+    font-size: 32px;
+    background-color: rgb(75, 74, 74);
+    color: rgb(9, 189, 9);
+    cursor: pointer;
+    border-radius: 4px;
+    padding: 8px;
+    height: 70px;
+    width: 250px;
+    margin-top: 16px;
+
+}
+
+#toDoForm{
+    border: 2px solid white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(22, 21, 21);
+    padding: 16px;
+    border-radius: 4px;
+    gap: 16px;
+    width: 500px;
+    height: 300px;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-size: 32px;
+    top: 20%;
+}
+
+
+#toDoForm > input{
+    font-size: 32px;
+    border-radius: 4px;
+}
+
+#toDoForm > div{
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+}
+
+#toDoForm > div > button{
+    font-size: 32px;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 4px;
+    background-color: green;
+}
+
+#toDoForm > div > .tCloseForm{
+    background-color: rgba(255, 0, 0, 0.692);
 }
