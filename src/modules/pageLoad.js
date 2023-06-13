@@ -50,7 +50,7 @@ function pageLoad(){
 
     let addToDo = document.createElement('button');
     addToDo.classList.add("addToDo");
-    addToDo.textContent = "Add To-do";
+    addToDo.textContent = "Add To-do to Selected Project";
     rightSide.appendChild(addToDo);
 
     //Project form creation
@@ -236,14 +236,17 @@ function pageLoad(){
     });
 
     addToDo.addEventListener('click', () =>{
-        toDoForm.style.opacity = 1;
-        toDoForm.style.transition = "opacity 150ms ease-in, visibility 0ms ease-in 0ms";
-        toDoForm.style.visibility = "visible";
-        leftSide.style.pointerEvents="none";
-        rightSide.style.pointerEvents="none";
-        leftSide.style.filter = "brightness(50%)";
-        rightSide.style.filter = "brightness(50%)";
-        document.addEventListener('mouseup', tClicked, false);
+        let activeList = document.getElementsByClassName("active");
+        if (activeList.length > 0){
+            toDoForm.style.opacity = 1;
+            toDoForm.style.transition = "opacity 150ms ease-in, visibility 0ms ease-in 0ms";
+            toDoForm.style.visibility = "visible";
+            leftSide.style.pointerEvents="none";
+            rightSide.style.pointerEvents="none";
+            leftSide.style.filter = "brightness(50%)";
+            rightSide.style.filter = "brightness(50%)";
+            document.addEventListener('mouseup', tClicked, false);
+        }
     });
 
     toDoClose.addEventListener("click", () => {
@@ -265,6 +268,7 @@ function pageLoad(){
     loadFromLocal();
 }
 
+//getProjectData takes the data from the project form and adds a new project
 function getProjectData(event){
     let projectForm = document.querySelector("#projectForm");
     let title = event.target.pTitleForm.value;
@@ -284,13 +288,69 @@ function getProjectData(event){
     event.target.pDescriptionForm.value = "";
 }
 
+//getToDoData takes the data from the to-do form and adds a new to-do to the current active project
 function getToDoData(event){
     let toDoForm = document.querySelector('#toDoForm');
-
+    let title = event.target.tTitleForm.value;
+    let description = event.target.tDescriptionForm.value;
+    let dueDate = event.target.tDateForm.value;
+    let prio = event.target.priority.value;
+    console.log(title);
+    console.log(description);
+    console.log(dueDate);
+    console.log(prio);
+    let activeList = document.querySelector(".active");
+    projectArray[activeList.dataset.index].addToDo(title, description, dueDate, prio);
+    let toDoList = document.querySelector(".toDoList");
+    let myDiv = document.createElement("div");
+    myDiv.classList.add("toDo");
+    myDiv.dataset.index = projectArray[activeList.dataset.index].getToDoListLength() - 1;
+    toDoList.appendChild(myDiv);
+    let left = document.createElement("div");
+    left.classList.add("leftToDo");
+    myDiv.appendChild(left);
+    let checkBox = document.createElement("div");
+    checkBox.classList.add("checkbox");
+    let toDoTitle = document.createElement("div");
+    toDoTitle.classList.add("toDoTitle");
+    toDoTitle.textContent = title;
+    left.appendChild(checkBox);
+    left.appendChild(toDoTitle);
+    let right = document.createElement("div");
+    right.classList.add("rightToDo");
+    myDiv.appendChild(right);
+    let date = document.createElement("div");
+    date.classList.add("toDoDate"); 
+    date.textContent = dueDate;
+    let priority = document.createElement("div");
+    priority.classList.add("toDoPriority");
+    priority.classList.add(`${prio}`);
+    let expand = document.createElement("button");
+    expand.classList.add("toDoExpand");
+    expand.innerHTML = "&#x25BC";
+    let del = document.createElement("button");
+    del.classList.add("toDoDelete");
+    del.textContent = "Delete";
+    right.appendChild(date);
+    right.appendChild(priority);
+    right.appendChild(expand);
+    right.appendChild(del);
     event.preventDefault();
+    toDoForm.style.opacity = 0;
+    toDoForm.style.transition = "opacity 100ms ease-in, visibility 0ms ease-in 100ms";
+    toDoForm.style.visibility = "hidden";
+    document.querySelector('.left').style.pointerEvents="auto";
+    document.querySelector('.right').style.pointerEvents="auto";
+    document.querySelector('.left').style.filter = "brightness(100%)";
+    document.querySelector('.right').style.filter = "brightness(100%)";
     document.removeEventListener('mouseup', tClicked, false);
+    event.target.tTitleForm.value = "";
+    event.target.tDescriptionForm.value = "";
+    event.target.tDateForm.value = "";
+    event.target.priority.value = "low";
 }
 
+//loadFromLocal loads all the projects and to-dos from local storage upon opening the page
 function loadFromLocal(){
     let myArray = [];
     for (let i = 0; i < localStorage.length; i++){
@@ -305,6 +365,7 @@ function loadFromLocal(){
     
 }
 
+//pClicked and tClicked functions allow their respective forms to be closed upon clicking outside the form window
 function pClicked(event){
     let projectForm = document.querySelector("#projectForm");
     if (!projectForm.contains(event.target)) {

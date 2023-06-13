@@ -23,6 +23,14 @@ class Project{
         return this.description;
     }
 
+    getToDoList(){
+        return this.toDoList;
+    }
+
+    getToDoListLength(){
+        return this.toDoList.length;
+    }
+
     setTitle(t){
         this.title = t;
     }
@@ -63,6 +71,46 @@ function changeActiveInfo(){
     let rightProjectDescription = document.querySelector(".rightProjectDescription")
     rightHeader.textContent = projectArray[activeProject.dataset.index].getTitle(); 
     rightProjectDescription.textContent = projectArray[activeProject.dataset.index].getDescription();
+    let toDoList = document.querySelector(".toDoList");
+    while (toDoList.lastElementChild){
+        toDoList.removeChild(toDoList.lastElementChild);
+    }
+    for (let i = 0; i < projectArray[activeProject.dataset.index].getToDoListLength(); i++){
+        console.log(projectArray[activeProject.dataset.index].getToDoListLength());
+        let myDiv = document.createElement("div");
+        myDiv.classList.add("toDo");
+        myDiv.dataset.index = i;
+        toDoList.appendChild(myDiv);
+        let left = document.createElement("div");
+        left.classList.add("leftToDo");
+        myDiv.appendChild(left);
+        let checkBox = document.createElement("div");
+        checkBox.classList.add("checkbox");
+        let toDoTitle = document.createElement("div");
+        toDoTitle.classList.add("toDoTitle");
+        toDoTitle.textContent = (projectArray[activeProject.dataset.index].getToDoList())[i].getTitle();
+        left.appendChild(checkBox);
+        left.appendChild(toDoTitle);
+        let right = document.createElement("div");
+        right.classList.add("rightToDo");
+        myDiv.appendChild(right);
+        let date = document.createElement("div");
+        date.classList.add("toDoDate"); 
+        date.textContent = (projectArray[activeProject.dataset.index].getToDoList())[i].getDueDate();
+        let priority = document.createElement("div");
+        priority.classList.add("toDoPriority");
+        priority.classList.add(`${(projectArray[activeProject.dataset.index].getToDoList())[i].getPriority()}`);
+        let expand = document.createElement("button");
+        expand.classList.add("toDoExpand");
+        expand.innerHTML = "&#x25BC";
+        let del = document.createElement("button");
+        del.classList.add("toDoDelete");
+        del.textContent = "Delete";
+        right.appendChild(date);
+        right.appendChild(priority);
+        right.appendChild(expand);
+        right.appendChild(del);
+    }
 }
 
 function deleteActiveProject(){
