@@ -5,7 +5,7 @@ html, body{
 }
 
 body{
-    background-color: rgb(75, 74, 74);
+    background-color: rgb(46, 45, 45);
     color: white;
     font-family: sans-serif;
     padding: 0;
@@ -57,13 +57,13 @@ body{
 }
 
 .addProject{
-    font-size: 32px;
+    font-size: 24px;
     background-color: rgb(75, 74, 74);
     color: rgb(9, 189, 9);
     cursor: pointer;
-    border-radius: 4px;
+    border-radius: 8px;
     padding: 8px;
-    height: 70px;
+    height: auto;
     width: 250px;
     margin-top: 16px;
 }
@@ -117,14 +117,15 @@ body{
 }
 
 .deleteProject{
-    font-size: 32px;
+    font-size: 24px;
     background-color: rgb(75, 74, 74);
     color: red;
     cursor: pointer;
-    border-radius: 4px;
-    height: 120px;
+    border-radius: 8px;
+    height: auto;
     width: 250px;
     margin-top: 30px;
+    padding: 8px;
 }
 
 .deleteProject:hover{
@@ -152,16 +153,20 @@ body{
 }
 
 .addToDo{
-    font-size: 32px;
+    font-size: 24px;
     background-color: rgb(75, 74, 74);
     color: rgb(9, 189, 9);
     cursor: pointer;
-    border-radius: 4px;
+    border-radius: 8px;
     padding: 8px;
-    height: 70px;
+    height: auto;
     width: 250px;
     margin-top: 16px;
 
+}
+
+.addToDo:hover{
+    background-color: rgb(114, 113, 113);
 }
 
 #toDoForm{
@@ -226,4 +231,74 @@ body{
 
 #toDoForm > div > label:nth-child(5){
     color: red;
+}
+
+.toDoList{
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.toDo{
+    display: flex;
+    border: 2px solid gray;
+    border-radius: 4px;
+    padding: 8px;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 24px;
+}
+
+.leftToDo{
+    display: flex;
+    gap: 12px;
+}
+
+.rightToDo{
+    display: flex;
+    gap: 16px;
+}
+
+.checkbox{
+    height: 24px;
+    width: 24px;
+    border: 1px solid gray;
+    border-radius: 4px;
+}
+
+.toDoPriority{
+    height: 24px;
+    width: 24px;
+    border: 1px solid gray;
+    border-radius: 4px;
+}
+
+.low{
+    background-color: green;
+}
+
+.med{
+    background-color: yellow;
+}
+
+.high{
+    background-color: red;
+}
+
+.toDoExpand{
+    background-color: rgb(63, 63, 63);
+    color: white;
+}
+
+.toDoDelete{
+    background-color: rgb(63, 63, 63);
+    color: white;
+}
+
+.toDoExpand:hover{
+    background-color: rgb(114, 113, 113);
+}
+
+.toDoDelete:hover{
+    background-color: rgb(114, 113, 113);
 }
