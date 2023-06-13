@@ -76,7 +76,6 @@ function changeActiveInfo(){
         toDoList.removeChild(toDoList.lastElementChild);
     }
     for (let i = 0; i < projectArray[activeProject.dataset.index].getToDoListLength(); i++){
-        console.log(projectArray[activeProject.dataset.index].getToDoListLength());
         let myDiv = document.createElement("div");
         myDiv.classList.add("toDo");
         myDiv.dataset.index = i;
@@ -106,6 +105,21 @@ function changeActiveInfo(){
         let del = document.createElement("button");
         del.classList.add("toDoDelete");
         del.textContent = "Delete";
+        del.addEventListener("click", () =>{
+            let a = document.querySelector(".active");
+            let parent = del.parentNode.parentNode;
+            while (parent.nextSibling != null){
+                parent = parent.nextSibling;
+                parent.dataset.index -= 1;
+            }      
+            parent = del.parentNode.parentNode;
+            (projectArray[a.dataset.index].getToDoList()).splice(parent.dataset.index, 1)
+            parent.parentNode.removeChild(parent);
+            localStorage.clear();
+            for (let i = 0; i < projectArray.length; i++){
+                localStorage.setItem(i, JSON.stringify(projectArray[i]));
+            }
+        });
         right.appendChild(date);
         right.appendChild(priority);
         right.appendChild(expand);

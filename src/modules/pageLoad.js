@@ -295,10 +295,6 @@ function getToDoData(event){
     let description = event.target.tDescriptionForm.value;
     let dueDate = event.target.tDateForm.value;
     let prio = event.target.priority.value;
-    console.log(title);
-    console.log(description);
-    console.log(dueDate);
-    console.log(prio);
     let activeList = document.querySelector(".active");
     projectArray[activeList.dataset.index].addToDo(title, description, dueDate, prio);
     let toDoList = document.querySelector(".toDoList");
@@ -331,6 +327,21 @@ function getToDoData(event){
     let del = document.createElement("button");
     del.classList.add("toDoDelete");
     del.textContent = "Delete";
+    del.addEventListener("click", () =>{
+        let activeProject = document.querySelector(".active");
+        let parent = del.parentNode.parentNode;
+        while (parent.nextSibling != null){
+            parent = parent.nextSibling;
+            parent.dataset.index -= 1;
+        }      
+        parent = del.parentNode.parentNode;
+        (projectArray[activeProject.dataset.index].getToDoList()).splice(parent.dataset.index, 1)
+        parent.parentNode.removeChild(parent);
+        localStorage.clear();
+        for (let i = 0; i < projectArray.length; i++){
+            localStorage.setItem(i, JSON.stringify(projectArray[i]));
+        }
+    });
     right.appendChild(date);
     right.appendChild(priority);
     right.appendChild(expand);
@@ -348,6 +359,10 @@ function getToDoData(event){
     event.target.tDescriptionForm.value = "";
     event.target.tDateForm.value = "";
     event.target.priority.value = "low";
+    localStorage.clear();
+    for (let i = 0; i < projectArray.length; i++){
+        localStorage.setItem(i, JSON.stringify(projectArray[i]));
+    }
 }
 
 //loadFromLocal loads all the projects and to-dos from local storage upon opening the page
@@ -357,9 +372,14 @@ function loadFromLocal(){
         myArray.push({key: localStorage.key(i), val: localStorage.getItem(localStorage.key(i))});
     }
     myArray.sort((a, b) => a.key - b.key);
+    
     myArray.forEach(ele => {
+        
         let p = JSON.parse(ele.val);
-        addProject(p.title, p.description);
+        let pro = addProject(p.title, p.description);
+        for (let i = 0; i < p.toDoList.length; i++){
+            pro.addToDo(p.toDoList[i].title, p.toDoList[i].description, p.toDoList[i].dueDate, p.toDoList[i].priority);
+        }
     }
     );
     
