@@ -307,14 +307,17 @@ function getToDoData(event){
     myDiv.classList.add("toDo");
     myDiv.dataset.index = projectArray[activeList.dataset.index].getToDoListLength() - 1;
     toDoList.appendChild(myDiv);
+    let container = document.createElement("div");
+    container.classList.add("container");
+    myDiv.append(container);
     let left = document.createElement("div");
     left.classList.add("leftToDo");
-    myDiv.appendChild(left);
+    container.appendChild(left);
     let checkBox = document.createElement("div");
     checkBox.classList.add("checkbox");
     checkBox.addEventListener("click", () =>{
         let activeProject = document.querySelector(".active");
-        let parent = checkBox.parentNode.parentNode;
+        let parent = checkBox.parentNode.parentNode.parentNode;
         if (projectArray[activeProject.dataset.index].getToDoList()[parent.dataset.index].getComplete() == false){
             projectArray[activeProject.dataset.index].getToDoList()[parent.dataset.index].toggleComplete();
             checkBox.classList.add("checked");
@@ -335,7 +338,7 @@ function getToDoData(event){
     left.appendChild(toDoTitle);
     let right = document.createElement("div");
     right.classList.add("rightToDo");
-    myDiv.appendChild(right);
+    container.appendChild(right);
     let date = document.createElement("div");
     date.classList.add("toDoDate"); 
     date.textContent = dueDate;
@@ -345,17 +348,32 @@ function getToDoData(event){
     let expand = document.createElement("button");
     expand.classList.add("toDoExpand");
     expand.innerHTML = "&#x25BC";
+    expand.addEventListener("click", () =>{
+        let a = document.querySelector(".active");
+        let p = expand.parentNode.parentNode.parentNode;
+        if (expand.classList.contains("out")){
+            expand.classList.remove("out");
+            p.removeChild(p.lastChild);
+        }
+        else{
+            let myDetails = document.createElement("div");
+            myDetails.classList.add("details");
+            myDetails.textContent = projectArray[a.dataset.index].getToDoList()[p.dataset.index].getDescription();
+            p.appendChild(myDetails);
+            expand.classList.add("out");
+        }
+    });
     let del = document.createElement("button");
     del.classList.add("toDoDelete");
     del.textContent = "Delete";
     del.addEventListener("click", () =>{
         let activeProject = document.querySelector(".active");
-        let parent = del.parentNode.parentNode;
+        let parent = del.parentNode.parentNode.parentNode;
         while (parent.nextSibling != null){
             parent = parent.nextSibling;
             parent.dataset.index -= 1;
         }      
-        parent = del.parentNode.parentNode;
+        parent = del.parentNode.parentNode.parentNode;
         (projectArray[activeProject.dataset.index].getToDoList()).splice(parent.dataset.index, 1)
         parent.parentNode.removeChild(parent);
         localStorage.clear();

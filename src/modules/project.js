@@ -80,9 +80,12 @@ function changeActiveInfo(){
         myDiv.classList.add("toDo");
         myDiv.dataset.index = i;
         toDoList.appendChild(myDiv);
+        let container = document.createElement("div");
+        container.classList.add("container");
+        myDiv.appendChild(container);
         let left = document.createElement("div");
         left.classList.add("leftToDo");
-        myDiv.appendChild(left);
+        container.appendChild(left);
         let checkBox = document.createElement("div");
         checkBox.classList.add("checkbox");
         if ((projectArray[activeProject.dataset.index].getToDoList())[i].getComplete() == true){
@@ -90,7 +93,7 @@ function changeActiveInfo(){
         }
         checkBox.addEventListener("click", () =>{
             let a = document.querySelector(".active");
-            let parent = checkBox.parentNode.parentNode;
+            let parent = checkBox.parentNode.parentNode.parentNode;
             if (projectArray[a.dataset.index].getToDoList()[parent.dataset.index].getComplete() == false){
                 checkBox.classList.add("checked");
             }
@@ -110,7 +113,7 @@ function changeActiveInfo(){
         left.appendChild(toDoTitle);
         let right = document.createElement("div");
         right.classList.add("rightToDo");
-        myDiv.appendChild(right);
+        container.appendChild(right);
         let date = document.createElement("div");
         date.classList.add("toDoDate"); 
         date.textContent = (projectArray[activeProject.dataset.index].getToDoList())[i].getDueDate();
@@ -120,17 +123,32 @@ function changeActiveInfo(){
         let expand = document.createElement("button");
         expand.classList.add("toDoExpand");
         expand.innerHTML = "&#x25BC";
+        expand.addEventListener("click", () =>{
+            let a = document.querySelector(".active");
+            let p = expand.parentNode.parentNode.parentNode;
+            if (expand.classList.contains("out")){
+                expand.classList.remove("out");
+                p.removeChild(p.lastChild);
+            }
+            else{
+                let myDetails = document.createElement("div");
+                myDetails.classList.add("details");
+                myDetails.textContent = projectArray[a.dataset.index].getToDoList()[p.dataset.index].getDescription();
+                p.appendChild(myDetails);
+                expand.classList.add("out");
+            }
+        });
         let del = document.createElement("button");
         del.classList.add("toDoDelete");
         del.textContent = "Delete";
         del.addEventListener("click", () =>{
             let a = document.querySelector(".active");
-            let parent = del.parentNode.parentNode;
+            let parent = del.parentNode.parentNode.parentNode;
             while (parent.nextSibling != null){
                 parent = parent.nextSibling;
                 parent.dataset.index -= 1;
             }      
-            parent = del.parentNode.parentNode;
+            parent = del.parentNode.parentNode.parentNode;
             (projectArray[a.dataset.index].getToDoList()).splice(parent.dataset.index, 1)
             parent.parentNode.removeChild(parent);
             localStorage.clear();
