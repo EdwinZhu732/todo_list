@@ -233,7 +233,12 @@ function pageLoad(){
         deleteActiveProject();
         rightHeader.textContent = "Example Project";
         rightProjectDescription.textContent = "Example Description";
-    });
+        let td = document.querySelector(".toDoList");
+        while (td.lastElementChild){
+            td.removeChild(td.lastElementChild);
+        }
+    }
+    );
 
     addToDo.addEventListener('click', () =>{
         let activeList = document.getElementsByClassName("active");
@@ -296,7 +301,7 @@ function getToDoData(event){
     let dueDate = event.target.tDateForm.value;
     let prio = event.target.priority.value;
     let activeList = document.querySelector(".active");
-    projectArray[activeList.dataset.index].addToDo(title, description, dueDate, prio);
+    projectArray[activeList.dataset.index].addToDo(title, description, dueDate, prio, false);
     let toDoList = document.querySelector(".toDoList");
     let myDiv = document.createElement("div");
     myDiv.classList.add("toDo");
@@ -307,6 +312,22 @@ function getToDoData(event){
     myDiv.appendChild(left);
     let checkBox = document.createElement("div");
     checkBox.classList.add("checkbox");
+    checkBox.addEventListener("click", () =>{
+        let activeProject = document.querySelector(".active");
+        let parent = checkBox.parentNode.parentNode;
+        if (projectArray[activeProject.dataset.index].getToDoList()[parent.dataset.index].getComplete() == false){
+            projectArray[activeProject.dataset.index].getToDoList()[parent.dataset.index].toggleComplete();
+            checkBox.classList.add("checked");
+        }
+        else{
+            projectArray[activeProject.dataset.index].getToDoList()[parent.dataset.index].toggleComplete();
+            checkBox.classList.remove("checked");
+        }
+        localStorage.clear();
+        for (let i = 0; i < projectArray.length; i++){
+            localStorage.setItem(i, JSON.stringify(projectArray[i]));
+        }
+    });
     let toDoTitle = document.createElement("div");
     toDoTitle.classList.add("toDoTitle");
     toDoTitle.textContent = title;
@@ -372,13 +393,11 @@ function loadFromLocal(){
         myArray.push({key: localStorage.key(i), val: localStorage.getItem(localStorage.key(i))});
     }
     myArray.sort((a, b) => a.key - b.key);
-    
     myArray.forEach(ele => {
-        
         let p = JSON.parse(ele.val);
         let pro = addProject(p.title, p.description);
         for (let i = 0; i < p.toDoList.length; i++){
-            pro.addToDo(p.toDoList[i].title, p.toDoList[i].description, p.toDoList[i].dueDate, p.toDoList[i].priority);
+            pro.addToDo(p.toDoList[i].title, p.toDoList[i].description, p.toDoList[i].dueDate, p.toDoList[i].priority, p.toDoList[i].complete == true);
         }
     }
     );

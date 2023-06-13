@@ -1,10 +1,11 @@
 class toDo{
     complete = false;
-    constructor(title, description, dueDate, priority){
+    constructor(title, description, dueDate, priority, c){
         this.title = title;
         this.description = description;
         this.dueDate = dueDate;
         this.priority = priority;
+        this.complete = c;
     }
 
     getTitle(){
@@ -21,6 +22,10 @@ class toDo{
 
     getPriority(){
         return this.priority;
+    }
+
+    getComplete(){
+        return this.complete;
     }
 
     toggleComplete(){
@@ -42,6 +47,8 @@ class toDo{
     setPriority(p){
         this.priority = p;
     }
+
+
     
 }
 

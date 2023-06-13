@@ -7,8 +7,8 @@ class Project{
         this.description = description;
     }
 
-    addToDo(title, description, dueDate, priority){
-        this.toDoList.push(new toDo(title, description, dueDate, priority));
+    addToDo(title, description, dueDate, priority, f){
+        this.toDoList.push(new toDo(title, description, dueDate, priority, f));
     }
 
     removeToDo(index){
@@ -85,6 +85,24 @@ function changeActiveInfo(){
         myDiv.appendChild(left);
         let checkBox = document.createElement("div");
         checkBox.classList.add("checkbox");
+        if ((projectArray[activeProject.dataset.index].getToDoList())[i].getComplete() == true){
+            checkBox.classList.add("checked");
+        }
+        checkBox.addEventListener("click", () =>{
+            let a = document.querySelector(".active");
+            let parent = checkBox.parentNode.parentNode;
+            if (projectArray[a.dataset.index].getToDoList()[parent.dataset.index].getComplete() == false){
+                checkBox.classList.add("checked");
+            }
+            else{
+                checkBox.classList.remove("checked");
+            }
+            projectArray[a.dataset.index].getToDoList()[parent.dataset.index].toggleComplete();
+            localStorage.clear();
+            for (let i = 0; i < projectArray.length; i++){
+                localStorage.setItem(i, JSON.stringify(projectArray[i]));
+            }
+        });
         let toDoTitle = document.createElement("div");
         toDoTitle.classList.add("toDoTitle");
         toDoTitle.textContent = (projectArray[activeProject.dataset.index].getToDoList())[i].getTitle();
